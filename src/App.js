@@ -1,24 +1,32 @@
-import useForm from "./hooks/useForm";
-import Input from "./components/Input";
+import Card from "./components/Card";
+import Container from "./components/Container";
+import { useState } from "react/cjs/react.development";
+import UserForm from "./components/UserForm";
 
 function App() {
-  const [form, handleChange] = useForm({ name: "", lastname: "" });
-  console.log(form);
+  const [users, setUsers] = useState([]);
+
+  const submit = (form) => {
+    setUsers([...users, form]);
+  };
+
   return (
-    <form action="">
-      <Input
-        name="name"
-        label="Name"
-        value={form.name}
-        onChange={handleChange}
-      />
-      <Input
-        name="lastname"
-        label="Last"
-        value={form.lastname}
-        onChange={handleChange}
-      />
-    </form>
+    <div style={{ marginTop: "15%" }}>
+      <Container>
+        <Card>
+          <div style={{ padding: 20 }}>
+            <UserForm submit={submit} />
+          </div>
+        </Card>
+        <Card>
+          <ul>
+            {users.map((u) => (
+              <li key={u.email}>{`${u.name} ${u.lastname}: ${u.email}`}</li>
+            ))}
+          </ul>
+        </Card>
+      </Container>
+    </div>
   );
 }
 
